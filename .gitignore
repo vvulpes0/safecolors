@@ -1,0 +1,12 @@
+*.aux
+*.bbl
+*.blg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ins
+*.log
+safecolors.sty
+safecolors.pdf

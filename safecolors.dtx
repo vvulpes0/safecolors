@@ -1,0 +1,222 @@
+% \iffalse meta-comment
+%<*internal>
+\def\nameofplainTeX{plain}
+\ifx\fmtname\nameofplainTeX\else
+  \expandafter\begingroup
+\fi
+%</internal>
+%<*install>
+\input docstrip.tex
+\keepsilent
+\askforoverwritefalse
+\preamble
+
+Copyright (C) 2021 Dakotah Lambert
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either version 1.3c
+of this license or (at your option) any later version.
+The latest version of this license is in
+  http://www.latex-project.org/lppl.txt
+and version 1.3c or later is part of all distributions of LaTeX
+version 2008 or later.
+
+This work has the LPPL maintenance status `maintained'.
+
+The Current Maintainer of this work is Dakotah Lambert.
+
+This work consists of the file safecolors.dtx
+and the derived files safecolors.ins and safecolors.sty.
+
+\endpreamble
+\nopostamble
+\usedir{tex/latex/safecolors}
+\generate{
+  \file{\jobname.sty}{\from{\jobname.dtx}{package}}
+}
+%</install>
+%<install>\endbatchfile
+%<*internal>
+\usedir{source/latex/safecolors}
+\generate{
+  \file{\jobname.ins}{\from{\jobname.dtx}{install}}
+}
+\nopreamble\nopostamble
+\ifx\fmtname\nameofplainTeX
+  \expandafter\endbatchfile
+\else
+  \expandafter\endgroup
+\fi
+%</internal>
+%<*package>
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{safecolors}[2021/03/06 v1.0 package safecolors]
+%</package>
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage[round]{natbib}
+\usepackage{\jobname}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \GetFileInfo{\jobname.sty}
+%
+% \bibliographystyle{plainnat}
+% \title{The \textbf{safecolors} package}
+% \author{Dakotah Lambert}
+% \date{\filedate, \fileversion}
+% \maketitle
+% \changes{v1.0}{2021/03/06}{First public release}
+%
+% \begin{abstract}
+% This package provides a palette of named colors
+% for use with the \textbf{xcolor} package.
+% It was designed such that figures and slides would be
+% more accessible to those with color-vision deficiencies,
+% while still being aesthetically pleasing.
+% Additionally, constraints of printing were considered.
+% \end{abstract}
+%
+% \section{Introduction}
+% \cite{OkabeIto2008} present a color palette based on
+% three desiderata:
+% \begin{enumerate}
+% \item Unambiguity in those with and those without color-deficient vision,
+% \item Vivid colors for ease of identification, and
+% \item Printability without too much deviation from on-screen values.
+% \end{enumerate}
+%
+% This package proposes a slightly different set of colors
+% based on this original concept.
+% Two additional constraints were imposed:
+% distinguishability when printed in grayscale
+% and consistent chromaticity.
+% The original palette is as follows (sorted by increasing luminance):
+% \begin{center}\small
+% \begin{testcolors}[RGB,cmyk,gray]
+% \testcolor[gray]{0}
+% \testcolor[RGB]{0,114,178}
+% \testcolor[RGB]{0,158,115}
+% \testcolor[RGB]{213,94,0}
+% \testcolor[RGB]{204,121,167}
+% \testcolor[RGB]{86,180,233}
+% \testcolor[RGB]{230,159,0}
+% \testcolor[RGB]{240,228,66}
+% \testcolor[gray]{1}
+% \end{testcolors}
+% \end{center}
+%
+% These may well be distinguishable
+% to deuteranopes, protanopes, or tritanopes.
+% But at least three of them,
+% having luminances in the range of $61\pm 2\%$,
+% merge when printed in grayscale.
+% Because journals and schools tend to print in monochrome
+% to reduce costs, this is unacceptable.
+%
+% \section{An improved palette}
+% Every hue has a luminance at which it is its most chromatic,
+% the saturating luma for that hue.
+% All that was retained from the original palette are the hues.
+% These were then mapped to their saturating lumas.
+% However, a fully-saturated RGB color will generally not print faithfully.
+% Each entry was therefore mapped to a value
+% that results in roughly 70 percent chromaticity.
+% There are three ways to accomplish such a change:
+% \begin{itemize}
+% \item Use 70 percent of the saturating luma,
+% \item Use the complement of 70 percent of its complement, or
+% \item Simply use the saturating luma at 70 percent saturation.
+% \end{itemize}
+% In the modified palette as shown below,
+% plum, blue, and teal were mapped darker,
+% while sky, orange, and yellow were mapped brighter.
+% Finally in the middle,
+% vermilion was left alone at its saturating luma
+% and desaturated,
+% in order to ensure visibility by protanopes for whom red appears black.
+%
+% This results in a modified version of the original palette.
+% Each entry aside from black and white
+% is nearly equally as chromatic as the others,
+% and the grayscale values after conversion
+% better span the available range,
+% allowing for easier distinction.
+%
+% \begin{center}\small
+% \begin{testcolors}[RGB,cmyk,gray]
+% \testcolor{black}
+% \testcolor{plum}
+% \testcolor{blue}
+% \testcolor{teal}
+% \testcolor{vermilion}
+% \testcolor{sky}
+% \testcolor{orange}
+% \testcolor{yellow}
+% \testcolor{white}
+% \end{testcolors}
+% \end{center}
+%
+% Chromaticity is the difference between the maximal and minimal
+% components of the RGB color.
+% Relative chromaticity (saturation) is the ratio between this value
+% and the maximum chromaticity for its hue-luminance pair.
+% Luminance is a weighted sum of these components:
+% $30\%$ red, $59\%$ green and $11\%$ blue.
+% This is the same weighting as used in \textbf{xcolor}
+% and many other systems,
+% but does not truly reflect human perception.
+% While the International Commission on Illumination (CIE)
+% publishes much more refined models for perceptual uniformity,
+% the simpler calculations used here
+% should suffice for many purposes.
+%
+% That said, these are primarily for emphasis or categorical data.
+% Of course, color should never be the sole distinguishing factor,
+% but the values here should serve
+% to enhance contrast that already exists.
+% Scientific color maps however come in other sorts
+% \citep{CrameriEtAl2020}:
+% \newcommand*{\term}[1]{\textcolor{teal}{\textbf{#1}}}
+% \begin{itemize}
+% \item \term{sequential} for ordered aperiodic data with no central value
+% \item \term{diverging} for aperiodic data ordered with respect to some central value
+% \item \term{multi-sequential} for aperiodic data where there is a central value, or
+% \item \term{cyclic} for periodic data.
+% \end{itemize}
+% Future work will involve
+% implementing the hue-saturation-luminance (HSY) model in \LaTeX{}.
+% This will allow for easy construction
+% of accessible scientific color maps
+% without having to compute RGB values externally.
+%
+% \StopEventually{^^A
+%   \PrintChanges
+%   \bibliography{safecolors}^^A
+% }
+% \section{Package source}
+% \iffalse meta-comment
+%<*package>
+% \fi
+%    \begin{macrocode}
+\RequirePackage{xcolor}
+\definecolorset{RGB}{}{}{%
+  orange,255,198,75;%      41/100/79
+  sky,77,190,255;%        202/100/64
+  teal,0,179,131;%        164/100/47
+  yellow,255,244,84;%      56/100/90
+  blue,0,114,179;%        202/100/34
+  vermilion,222,125,45;%   27/ 70/57
+  plum,176,0,100%         326/100/25
+}
+%    \end{macrocode}
+% \iffalse meta-comment
+%</package>
+% \fi
+% \Finale
